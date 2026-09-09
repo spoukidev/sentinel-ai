@@ -1,0 +1,232 @@
+[
+  {
+    "name": "Repeated failed sign-ins",
+    "description": "Synthetic demonstration of repeated failed sign-ins. Verify context before drawing conclusions.",
+    "enabled": true,
+    "severity": "high",
+    "source": "windows",
+    "conditions": [
+      {
+        "field": "outcome",
+        "op": "eq",
+        "value": "failure"
+      }
+    ],
+    "threshold": 5,
+    "window_seconds": 300,
+    "tactic": "Credential Access",
+    "technique": "T1110",
+    "tags": [
+      "synthetic",
+      "demo"
+    ],
+    "recommended_response": "Review the referenced events, confirm the activity with the asset owner, and compare with approved changes. Document findings before any manual defensive action."
+  },
+  {
+    "name": "Privileged sign-in observed",
+    "description": "Synthetic demonstration of privileged sign-in observed. Verify context before drawing conclusions.",
+    "enabled": true,
+    "severity": "informational",
+    "source": "windows",
+    "conditions": [
+      {
+        "field": "action",
+        "op": "eq",
+        "value": "privileged_login"
+      }
+    ],
+    "threshold": 1,
+    "window_seconds": 300,
+    "tactic": "Defense Evasion",
+    "technique": "T1078",
+    "tags": [
+      "synthetic",
+      "demo"
+    ],
+    "recommended_response": "Review the referenced events, confirm the activity with the asset owner, and compare with approved changes. Document findings before any manual defensive action."
+  },
+  {
+    "name": "New country sign-in signal",
+    "description": "Synthetic demonstration of new country sign-in signal. Verify context before drawing conclusions.",
+    "enabled": true,
+    "severity": "medium",
+    "source": "cloud",
+    "conditions": [
+      {
+        "field": "meta.new_country",
+        "op": "eq",
+        "value": true
+      }
+    ],
+    "threshold": 1,
+    "window_seconds": 300,
+    "tactic": "Defense Evasion",
+    "technique": "T1078",
+    "tags": [
+      "synthetic",
+      "demo"
+    ],
+    "recommended_response": "Review the referenced events, confirm the activity with the asset owner, and compare with approved changes. Document findings before any manual defensive action."
+  },
+  {
+    "name": "Administrator role assigned",
+    "description": "Synthetic demonstration of administrator role assigned. Verify context before drawing conclusions.",
+    "enabled": true,
+    "severity": "critical",
+    "source": "cloud",
+    "conditions": [
+      {
+        "field": "action",
+        "op": "eq",
+        "value": "assign_admin"
+      }
+    ],
+    "threshold": 1,
+    "window_seconds": 300,
+    "tactic": "Persistence",
+    "technique": "T1098",
+    "tags": [
+      "synthetic",
+      "demo"
+    ],
+    "recommended_response": "Review the referenced events, confirm the activity with the asset owner, and compare with approved changes. Document findings before any manual defensive action."
+  },
+  {
+    "name": "Unusual outbound volume",
+    "description": "Synthetic demonstration of unusual outbound volume. Verify context before drawing conclusions.",
+    "enabled": true,
+    "severity": "high",
+    "source": "firewall",
+    "conditions": [
+      {
+        "field": "meta.bytes",
+        "op": "gte",
+        "value": 50000000
+      }
+    ],
+    "threshold": 1,
+    "window_seconds": 300,
+    "tactic": "Exfiltration",
+    "technique": "T1048",
+    "tags": [
+      "synthetic",
+      "demo"
+    ],
+    "recommended_response": "Review the referenced events, confirm the activity with the asset owner, and compare with approved changes. Document findings before any manual defensive action."
+  },
+  {
+    "name": "Repeated missing web resources",
+    "description": "Synthetic demonstration of repeated missing web resources. Verify context before drawing conclusions.",
+    "enabled": true,
+    "severity": "low",
+    "source": "web",
+    "conditions": [
+      {
+        "field": "outcome",
+        "op": "eq",
+        "value": "not_found"
+      }
+    ],
+    "threshold": 5,
+    "window_seconds": 300,
+    "tactic": "Reconnaissance",
+    "technique": "T1595",
+    "tags": [
+      "synthetic",
+      "demo"
+    ],
+    "recommended_response": "Review the referenced events, confirm the activity with the asset owner, and compare with approved changes. Document findings before any manual defensive action."
+  },
+  {
+    "name": "Synthetic command indicator",
+    "description": "Synthetic demonstration of synthetic command indicator. Verify context before drawing conclusions.",
+    "enabled": true,
+    "severity": "high",
+    "source": "windows",
+    "conditions": [
+      {
+        "field": "raw_event",
+        "op": "contains",
+        "value": "DEMO_POWERSHELL_INDICATOR"
+      }
+    ],
+    "threshold": 1,
+    "window_seconds": 300,
+    "tactic": "Execution",
+    "technique": "T1059.001",
+    "tags": [
+      "synthetic",
+      "demo"
+    ],
+    "recommended_response": "Review the referenced events, confirm the activity with the asset owner, and compare with approved changes. Document findings before any manual defensive action."
+  },
+  {
+    "name": "Demo-blocklisted DNS request",
+    "description": "Synthetic demonstration of demo-blocklisted dns request. Verify context before drawing conclusions.",
+    "enabled": true,
+    "severity": "critical",
+    "source": "dns",
+    "conditions": [
+      {
+        "field": "meta.domain",
+        "op": "eq",
+        "value": "blocked.example"
+      }
+    ],
+    "threshold": 1,
+    "window_seconds": 300,
+    "tactic": "Command and Control",
+    "technique": "T1071.004",
+    "tags": [
+      "synthetic",
+      "demo"
+    ],
+    "recommended_response": "Review the referenced events, confirm the activity with the asset owner, and compare with approved changes. Document findings before any manual defensive action."
+  },
+  {
+    "name": "Security control disabled",
+    "description": "Synthetic demonstration of security control disabled. Verify context before drawing conclusions.",
+    "enabled": true,
+    "severity": "critical",
+    "source": "cloud",
+    "conditions": [
+      {
+        "field": "action",
+        "op": "eq",
+        "value": "disable_control"
+      }
+    ],
+    "threshold": 1,
+    "window_seconds": 300,
+    "tactic": "Defense Evasion",
+    "technique": "T1562.001",
+    "tags": [
+      "synthetic",
+      "demo"
+    ],
+    "recommended_response": "Review the referenced events, confirm the activity with the asset owner, and compare with approved changes. Document findings before any manual defensive action."
+  },
+  {
+    "name": "Synthetic travel signal",
+    "description": "Synthetic demonstration of synthetic travel signal. Verify context before drawing conclusions.",
+    "enabled": true,
+    "severity": "medium",
+    "source": "cloud",
+    "conditions": [
+      {
+        "field": "meta.travel_signal",
+        "op": "eq",
+        "value": true
+      }
+    ],
+    "threshold": 1,
+    "window_seconds": 300,
+    "tactic": "Defense Evasion",
+    "technique": "T1078",
+    "tags": [
+      "synthetic",
+      "demo"
+    ],
+    "recommended_response": "Review the referenced events, confirm the activity with the asset owner, and compare with approved changes. Document findings before any manual defensive action."
+  }
+]
