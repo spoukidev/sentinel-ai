@@ -231,3 +231,32 @@ def test_auth_origin_required_and_validation_does_not_echo_password(client):
     assert result.status_code == 422
     assert data["password"] not in result.text
     assert "x-request-id" in result.headers
+
+
+def test_dashboard_mtta_and_mttr_use_first_transitions(client, auth, db):
+    from app.models import Alert, AlertStatusHistory
+
+    add_rule(client, auth, 7)
+    client.post(
+        P + "/events",
+        headers=auth,
+        json={**sample(), "source": "dns", "parsed_metadata": {"domain": "blocked.example"}},
+    )
+    alert_id = client.get(P + "/alerts", headers=auth).json()["items"][0]["id"]
+    for status in ("investigating", "resolved", "investigating", "resolved"):
+        assert client.patch(P + f"/alerts/{alert_id}", headers=auth, json={"status": status}).status_code == 200
+    alert = db.get(Alert, alert_id)
+    rows = db.scalars(
+        select(AlertStatusHistory)
+        .where(AlertStatusHistory.alert_id == alert_id)
+        .order_by(AlertStatusHistory.created_at)
+    ).all()
+    assert len(rows) == 4
+    for minutes, row in zip((10, 30, 50, 70), rows, strict=True):
+        row.created_at = alert.created_at + timedelta(minutes=minutes)
+    db.commit()
+    dashboard = client.get(P + "/dashboard", headers=auth).json()
+    assert dashboard["mtta_minutes"] == 10.0
+    assert dashboard["mttr_minutes"] == 30.0
+    other = register(client, "outsider@example.com")
+    assert client.get(P + "/dashboard", headers=other).json()["mtta_minutes"] is None

@@ -508,19 +508,24 @@ def dashboard(member=Depends(current_member), db: Session = Depends(get_db)):
     alert_rows = db.scalars(select(Alert).where(Alert.organization_id == member.organization_id)).all()
     active = [a for a in alert_rows if a.status in ["new", "investigating"]]
     dates = Counter(a.first_seen.strftime("%Y-%m-%d") for a in alert_rows)
+    # One query for the whole workspace's status history instead of one per alert.
+    first_ack_at, first_resolve_at = {}, {}
+    for alert_id, status, created_at in db.execute(
+        select(AlertStatusHistory.alert_id, AlertStatusHistory.status, AlertStatusHistory.created_at)
+        .join(Alert, Alert.id == AlertStatusHistory.alert_id)
+        .where(Alert.organization_id == member.organization_id)
+        .order_by(AlertStatusHistory.created_at)
+    ):
+        if status != "new":
+            first_ack_at.setdefault(alert_id, created_at)
+        if status == "resolved":
+            first_resolve_at.setdefault(alert_id, created_at)
     ack, resolved = [], []
     for alert in alert_rows:
-        history = db.scalars(
-            select(AlertStatusHistory)
-            .where(AlertStatusHistory.alert_id == alert.id)
-            .order_by(AlertStatusHistory.created_at)
-        ).all()
-        first_ack = next((h for h in history if h.status != "new"), None)
-        first_resolve = next((h for h in history if h.status == "resolved"), None)
-        if first_ack:
-            ack.append((first_ack.created_at - alert.created_at).total_seconds() / 60)
-        if first_resolve:
-            resolved.append((first_resolve.created_at - alert.created_at).total_seconds() / 60)
+        if alert.id in first_ack_at:
+            ack.append((first_ack_at[alert.id] - alert.created_at).total_seconds() / 60)
+        if alert.id in first_resolve_at:
+            resolved.append((first_resolve_at[alert.id] - alert.created_at).total_seconds() / 60)
     return {
         "active_alerts": len(active),
         "critical_alerts": sum(a.severity == "critical" for a in active),
