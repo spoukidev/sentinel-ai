@@ -2,11 +2,9 @@
 
 **Open-source intelligent SOC for small security teams.**
 
-![Next.js](https://img.shields.io/badge/frontend-Next.js%20%2B%20TypeScript-111827) ![FastAPI](https://img.shields.io/badge/backend-FastAPI-009688) ![Docker](https://img.shields.io/badge/local-Docker%20Compose-2496ED) ![License](https://img.shields.io/badge/license-MIT-76c7b7)
+[![CI](https://github.com/spoukidev/sentinel-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/spoukidev/sentinel-ai/actions/workflows/ci.yml) ![Next.js](https://img.shields.io/badge/frontend-Next.js%20%2B%20TypeScript-111827) ![FastAPI](https://img.shields.io/badge/backend-FastAPI-009688) ![Docker](https://img.shields.io/badge/local-Docker%20Compose-2496ED) ![License](https://img.shields.io/badge/license-MIT-76c7b7)
 
 > **Release status: Phase 1 foundation.** Functional defensive monitoring, tenant-isolated workspaces, reproducible detections and evidence-led alert investigation. Incident management, AI providers, phishing analysis and anomaly detection are **not implemented yet**. This is a portfolio application, not a production-certified SOC.
-
-<!-- Banner placeholder: replace with a project banner when publishing. CI badge placeholder: insert the actual repository Actions URL after creating the repository. -->
 
 ## What this project demonstrates
 
